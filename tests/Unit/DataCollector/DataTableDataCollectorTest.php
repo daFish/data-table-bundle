@@ -418,14 +418,10 @@ class DataTableDataCollectorTest extends TestCase
         $headerView->vars = ['label' => 'Name', 'attr' => []];
         $this->collector->collectColumnHeaderView($column, $headerView);
 
-        $serialized = $this->collector->__serialize();
-        $this->assertArrayHasKey('data', $serialized);
+        $restoredCollector = unserialize(serialize($this->collector));
 
-        $restoredCollector = new DataTableDataCollector($this->dataExtractor);
-        $restoredCollector->__unserialize($serialized);
-
-        $data = $restoredCollector->getData();
-        $this->assertInstanceOf(Data::class, $data);
+        $this->assertInstanceOf(DataTableDataCollector::class, $restoredCollector);
+        $this->assertInstanceOf(Data::class, $restoredCollector->getData());
     }
 
     private function assertActionViewCollected(ActionContext $context, string $dataKey): void
