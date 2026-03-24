@@ -36,11 +36,11 @@ class DataTableDataCollector extends AbstractDataCollector implements DataTableD
         }
     }
 
-    public function __sleep(): array
+    public function __serialize(): array
     {
         $this->data = $this->cloneVar($this->data)->withMaxDepth($this->maxDepth);
 
-        return parent::__sleep();
+        return parent::__serialize();
     }
 
     public static function getTemplate(): ?string
